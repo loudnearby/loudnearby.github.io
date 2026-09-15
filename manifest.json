@@ -1,0 +1,17 @@
+{
+  "name": "Loud Nearby",
+  "short_name": "Loud Nearby",
+  "description": "Koncerty metal/rock w Polsce — Trójmiasto i cała reszta kraju.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#131214",
+  "theme_color": "#C81E3A",
+  "orientation": "portrait-primary",
+  "lang": "pl",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
