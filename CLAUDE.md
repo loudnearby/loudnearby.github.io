@@ -75,8 +75,11 @@ Przy kolejnych aktualizacjach:
    (zasada 6).
 5. Sprzeczna/błędna data w istniejącym wpisie → popraw **tylko ten jeden wiersz**, nie
    przepisuj całej tabeli.
-6. Zaktualizuj `stan na DD.MM.RRRR` w nagłówku (`index.html`, `id="ui-asof-prefix"` obok
-   `<strong>`) na dzisiejszą datę po każdej aktualizacji danych.
+6. **Zaktualizuj `stan na DD.MM.RRRR` w nagłówku (`index.html`, `id="ui-asof-prefix"` obok
+   `<strong>`) na dzisiejszą datę.** To jest obowiązkowe przy KAŻDEJ aktualizacji danych
+   koncertowych, nawet drobnej (np. jeden dopisany wiersz) — nie tylko przy większych
+   przebiegach researchu. Traktuj to jako część samej zmiany danych, nie osobny,
+   opcjonalny krok.
 7. Zawsze waliduj po zmianach (patrz niżej).
 
 ## Walidacja przed commitem
@@ -87,6 +90,9 @@ Przy kolejnych aktualizacjach:
 - Brak duplikatów (data + nazwa + miejsce)
 - Zgodność miasto → tablica: `TRI` tylko dla Gdańsk/Gdynia/Sopot, `REST` dla reszty
 - Daty w oknie czasowym `dziś … dziś+365 dni` (zasada 1)
+- **`stan na DD.MM.RRRR` w nagłówku zgadza się z dzisiejszą datą** — jeśli dane koncertowe
+  zmieniły się w tym commicie, a ta data nie została zaktualizowana, commit jest
+  niekompletny
 - `node --check` na wyciągniętym inline `<script>` (dwa bloki `<script>` w pliku — sprawdź
   każdy osobno)
 - Renderowanie lokalne (`python3 -m http.server` + Playwright) i porównanie licznika
