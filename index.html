@@ -384,6 +384,10 @@
   .soon.today { background: var(--accent); color: var(--accent-ink); }
   .soon.tomorrow { border: 1px solid var(--accent); color: var(--accent); }
   .soon.week { border: 1px solid var(--amber); color: var(--amber); }
+  .soon.cancelled { border: 1px solid var(--text-dim); color: var(--text-dim); }
+
+  tr.event.cancelled td.date,
+  tr.event.cancelled td.band { color: var(--text-dim); }
 
   /* ---------- Row actions ---------- */
   td.akcje { white-space: nowrap; }
@@ -750,6 +754,7 @@
       shareBtnTitle: "Udostępnij znajomemu",
       soonToday: "Dziś", soonTomorrow: "Jutro",
       soonWeek: function (n) { return "Za " + n + " dni"; },
+      cancelledLabel: "ANULOWANE",
       footerText: "Zestawienie przygotowane za pomocą AI na podstawie zapowiedzi z danych z portali i klubów z całej Polski - nie jest to pełna, oficjalna lista wszystkich koncertów. Linki „Informacje” prowadzą do strony portalu, klubu lub serwisu biletowego z ofertą danego miejsca (nie zawsze bezpośrednio do konkretnego wydarzenia) - dokładne godziny i dostępność biletów zawsze warto zweryfikować na miejscu.",
       contactLabel: "Kontakt:",
       themeLight: "Tryb dzienny", themeDark: "Tryb nocny",
@@ -789,6 +794,7 @@
       shareBtnTitle: "Share with a friend",
       soonToday: "Today", soonTomorrow: "Tomorrow",
       soonWeek: function (n) { return "In " + n + " days"; },
+      cancelledLabel: "CANCELLED",
       footerText: "Compiled with AI from data from portals and venues across Poland — not a complete, official list of every concert. „Details” links go to the portal's, venue's or ticketing site's listing (not always the exact event page) — always double-check exact times and ticket availability.",
       contactLabel: "Contact:",
       themeLight: "Light mode", themeDark: "Dark mode",
@@ -875,7 +881,8 @@
       }
       var v = splitVenue(ev[2]);
       var id = "ev-" + idx++;
-      rows.push({ type: "event", id: id, date: iso, band: ev[1], place: v.place, city: v.city, venue: ev[2], genre: ev[3] });
+      var cancelled = ev[4] === "CANCELLED";
+      rows.push({ type: "event", id: id, date: iso, band: ev[1], place: v.place, city: v.city, venue: ev[2], genre: ev[3], cancelled: cancelled });
       shown++;
     });
     tbody.innerHTML = "";
@@ -894,12 +901,13 @@
           genre: r.genre, date: r.date, ticketUrl: tUrl
         };
         tr.id = r.id;
-        tr.className = "event";
+        tr.className = "event" + (r.cancelled ? " cancelled" : "");
         tr.dataset.genre = r.genre;
         tr.dataset.city = r.city;
         tr.dataset.search = (r.band + " " + r.venue).toLowerCase();
+        var soon = r.cancelled ? '<span class="soon cancelled">' + t("cancelledLabel") + '</span>' : soonBadge(r.date);
         tr.innerHTML =
-          '<td class="date">' + fmtDate(r.date) + soonBadge(r.date) + '</td>' +
+          '<td class="date">' + fmtDate(r.date) + soon + '</td>' +
           '<td class="band">' + r.band + '</td>' +
           '<td class="venue">' + r.place + (r.city ? ', <span class="city">' + r.city + '</span>' : '') +
             '<a class="map-link" href="' + mapsUrl(r.place, r.city) + '" target="_blank" rel="noopener" title="' + t("mapTitle") + '">' + t("mapLink") + '</a></td>' +
