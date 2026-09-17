@@ -93,6 +93,8 @@ Przy kolejnych aktualizacjach:
 - **`stan na DD.MM.RRRR` w nagłówku zgadza się z dzisiejszą datą** — jeśli dane koncertowe
   zmieniły się w tym commicie, a ta data nie została zaktualizowana, commit jest
   niekompletny
+- **`<lastmod>` w `sitemap.xml` zaktualizowany na dzisiejszą datę** przy każdej
+  aktualizacji danych koncertowych — spina się z tym samym workflow co punkt wyżej
 - `node --check` na wyciągniętym inline `<script>` (dwa bloki `<script>` w pliku — sprawdź
   każdy osobno)
 - Renderowanie lokalne (`python3 -m http.server` + Playwright) i porównanie licznika
