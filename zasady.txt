@@ -1,0 +1,28 @@
+Sprawdzasz koncerty/wydarzenia na najabliższy rok. Czyli jeżeli Mamy wrzesień 2026, to sprawdzasz to sierpnia 2027. tak samo tabelka zawiera wpisy na cały rok. 
+
+Po wyciągnięciu informacji o koncertach z Internetu, edytujesz tylko tabelę. Nagłówek, format, logo, informacje nad i pod tabelką zostają niezmienione.
+
+Format jednego wpisu. Każdy koncert to czteroelementowa tablica: [data ISO, nazwa wykonawcy/wydarzenia, "Miejsce, Miasto", GATUNEK], np. ["2026-10-14","Belphegor, Krisiun, Asagraum","Drizzly Grizzly, Gdańsk","METAL"]. Data zawsze w formacie RRRR-MM-DD (bo tak łatwo sortować i porównywać), a na stronie wyświetla się automatycznie jako DD.MM.RRRR. Pole "miejsce" to zawsze Nazwa klubu, Miasto rozdzielone przecinkiem — kod dzieli to po ostatnim przecinku, więc format musi być konsekwentny.
+
+Jeżeli występ jest anulowany i jest informacja na stronie, żę sie nie odbędzie to obok daty, gdzie znajduje się "dzis", "za 2 dni" wstaw "ANULOWANE" lub "CANCELLED" dla wersji angielskiej. Sam tekst gdzie jest data i nazwa tego wydarzenia musi być wyszarzony, greyed out. 
+
+Czasami na stronach są podane koncerty, które się odbyły. Jedno z głównych zadań jest nie umieszczanie takich wydarzeń w tabelce. Zawsze upewnij się, że dany koncert odbędzie się, a nie że ma się odbyć. Pomóc może informacja o tym, jaki rok jest przypisany do wydarzenia.
+
+Dwie osobne listy danych. Koncerty w Trójmieście (Gdańsk/Gdynia/Sopot) i reszta Polski trzymane są w dwóch osobnych tablicach (TRI i REST), które program łączy w jedną i sortuje chronologicznie do wyświetlenia. Trójmiasto jest zdefiniowane jako zbiór trzech miast: Gdańsk, Gdynia, Sopot — to na tej podstawie działa filtr "Trójmiasto".
+
+Zamknięty zestaw gatunków. Używam tylko pięciu tagów, zawsze wielkimi literami, zawsze po angielsku nawet w polskiej wersji językowej: METAL, ROCK, PUNK, GOTH, TRIBUTE. Coverbandy i wieczory tribute (np. "UNU — tribute to Perfect", "Rammstein Symphonic Experience") dostają zawsze TRIBUTE, niezależnie od tego, jakiego artystę naśladują — nie próbuję ich wrzucać do gatunku oryginału.
+
+Automatyczne znikanie przeszłych koncertów. Nie usuwam ręcznie koncertów, które już się odbyły — kod sam sprawdza datę i pomija wpisy wcześniejsze niż dziś (daysUntil(iso) < 0), więc mogę zostawiać stare wpisy w danych bez sprzątania, a lista sama się czyści.
+
+Grupowanie po miesiącach. Wiersze są automatycznie porządkowane chronologicznie i dostają nagłówek miesiąca (np. „Październik 2026") wstawiany przy każdej zmianie miesiąca w posortowanej liście — to nie jest ręcznie wpisywane, wynika z samej daty.
+
+Linki „Informacje/Details" nie są linkami do pojedynczego wydarzenia, tylko do kategorii/klubu. Funkcja ticketUrl() przypisuje link na podstawie nazwy miejsca: Stodoła, Progresja, Proxima, Klub Kwadrat, Zaścianek, B90, Drizzly Grizzly, Wytwórnia, Centrum Koncertowe A2, Alive, Mózg dostają link wprost do ich strony z wydarzeniami; koncerty w Warszawie i Krakowie lądują na przefiltrowanej liście rockmetal.pl dla danego miasta; reszta koncertów w Gdańsku/Gdyni idzie do rock3miasto.pl; wszystko inne (domyślnie) trafia na koncertyw.pl. To jest świadomie zaznaczone w stopce strony jako link ogólny, nie zawsze do konkretnego wydarzenia — użytkownik ma sam zweryfikować szczegóły.
+
+Wielokrotne przystanki trasy to osobne wiersze. Jeśli zespół gra w kilku miastach (np. Xandria, Eleine, Tarja Turunen, The Rasmus), każdy przystanek to osobny wpis z własną datą i miastem — nie łączę ich w jeden wiersz.
+
+Wydarzenia wielodniowe (festiwale, dłuższe trasy w jednym miejscu) mają zakres dat dopisany w nawiasie w samej nazwie, np. „Inside Seaside 2026 (festiwal, 13–14.11)" albo „The HU (19–20.10)" — pole daty w danych to zawsze pierwszy dzień.
+Pol'and'Rock Festival, Mystic Festival, Metalmania, Jarocin Festiwal, Castle Party, Hellsbells - to lista festiwali. Jeżeli występ zespołu jest na festiwalu to dodaj tą informacje w przy nazwie zespolu, ale wazne zeby nie bylo za duzo tekstu.
+
+
+Żadnych kopiowanych opisów ani zdjęć. Wpis to wyłącznie te cztery suche fakty — nigdy nie przepisuję opisu wydarzenia ani nie wklejam grafiki z serwisu źródłowego
+
