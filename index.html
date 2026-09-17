@@ -362,6 +362,30 @@
   #theme-toggle:focus-visible, #lang-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   #theme-toggle .icon { font-size: 14px; line-height: 1; }
 
+  #install-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    border: 1.5px solid var(--accent);
+    color: var(--accent-ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    margin-right: auto;
+  }
+  #install-btn.visible { display: inline-flex; }
+  #install-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* Belt-and-braces: never show the install button inside an already-installed PWA,
+     even if JS logic above somehow marked it visible. */
+  @media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui) {
+    #install-btn { display: none !important; }
+  }
+
   .contact {
     margin-top: 14px;
     padding-top: 14px;
@@ -524,6 +548,10 @@
 
 <div class="wrap">
   <div class="theme-bar">
+    <button id="install-btn" type="button">
+      <span class="icon" aria-hidden="true">&#8595;</span>
+      <span id="install-label">Zainstaluj aplikację</span>
+    </button>
     <button id="lang-toggle" type="button">EN</button>
     <button id="theme-toggle" type="button" aria-pressed="false">
       <span class="icon" aria-hidden="true">&#9728;</span>
@@ -729,6 +757,7 @@
       soonToday: "Dziś", soonTomorrow: "Jutro",
       soonWeek: function (n) { return "Za " + n + " dni"; },
       cancelledLabel: "ANULOWANE",
+      installLabel: "Zainstaluj aplikację",
       footerText: "Zestawienie przygotowane za pomocą AI na podstawie zapowiedzi z danych z portali i klubów z całej Polski - nie jest to pełna, oficjalna lista wszystkich koncertów. Linki „Informacje” prowadzą do strony portalu, klubu lub serwisu biletowego z ofertą danego miejsca (nie zawsze bezpośrednio do konkretnego wydarzenia) - dokładne godziny i dostępność biletów zawsze warto zweryfikować na miejscu.",
       contactLabel: "Kontakt:",
       themeLight: "Tryb dzienny", themeDark: "Tryb nocny",
@@ -769,6 +798,7 @@
       soonToday: "Today", soonTomorrow: "Tomorrow",
       soonWeek: function (n) { return "In " + n + " days"; },
       cancelledLabel: "CANCELLED",
+      installLabel: "Install app",
       footerText: "Compiled with AI from data from portals and venues across Poland — not a complete, official list of every concert. „Details” links go to the portal's, venue's or ticketing site's listing (not always the exact event page) — always double-check exact times and ticket availability.",
       contactLabel: "Contact:",
       themeLight: "Light mode", themeDark: "Dark mode",
@@ -1140,6 +1170,37 @@
     window.__themeRerender = function () { render(current); };
   })();
 
+  /* ---------- Install prompt (PWA) — browser only, never inside the installed app ---------- */
+  (function () {
+    var btn = document.getElementById("install-btn");
+    var deferredPrompt = null;
+
+    function alreadyInstalled() {
+      return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+        window.navigator.standalone === true;
+    }
+
+    if (alreadyInstalled()) return;
+
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      btn.classList.add("visible");
+    });
+
+    btn.addEventListener("click", function () {
+      if (!deferredPrompt) return;
+      btn.classList.remove("visible");
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () { deferredPrompt = null; });
+    });
+
+    window.addEventListener("appinstalled", function () {
+      btn.classList.remove("visible");
+      deferredPrompt = null;
+    });
+  })();
+
   /* ---------- Language toggle (PL/EN) ---------- */
   (function () {
     var langBtn = document.getElementById("lang-toggle");
@@ -1152,6 +1213,7 @@
       document.getElementById("ui-count-label").textContent = t("countLabel");
       document.getElementById("ui-asof-prefix").textContent = t("asofPrefix");
       document.getElementById("ui-asof-note").textContent = t("asofNote");
+      document.getElementById("install-label").textContent = t("installLabel");
       document.getElementById("ui-region-title").textContent = t("regionTitle");
       citySelect.querySelector('[data-role="tri"]').textContent = t("triChip");
       citySelect.querySelector('[data-role="all"]').textContent = t("cityAll");
