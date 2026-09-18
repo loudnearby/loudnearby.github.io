@@ -72,7 +72,27 @@
 </script>
 </head>
 <body>
+<div id="splash-screen"><img src="splash.png" width="1254" height="1254" alt="Loud Nearby"></div>
 <style>
+  #splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    opacity: 1;
+    transition: opacity 0.35s ease;
+  }
+  #splash-screen img {
+    width: min(60vw, 320px);
+    height: auto;
+  }
+  #splash-screen.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
   :root {
     --bg: #F2F0EA;
     --surface: #FFFFFF;
@@ -1084,6 +1104,24 @@
     renderEventJsonLd();
   }
   renderAll();
+
+  /* ---------- Splash screen ---------- */
+  (function () {
+    var splash = document.getElementById("splash-screen");
+    var MIN_DISPLAY_MS = 500;
+    var shownAt = Date.now();
+    function hideSplash() {
+      var elapsed = Date.now() - shownAt;
+      var wait = Math.max(0, MIN_DISPLAY_MS - elapsed);
+      setTimeout(function () {
+        splash.classList.add("hide");
+        setTimeout(function () { splash.remove(); }, 400);
+      }, wait);
+    }
+    if (document.readyState === "complete") hideSplash();
+    else window.addEventListener("load", hideSplash);
+    setTimeout(hideSplash, 2500); // safety fallback
+  })();
 
   var CITY_PRIORITY = ["Warszawa", "Poznań", "Kraków", "Łódź"];
   var citySelect = document.getElementById("city-select");
