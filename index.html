@@ -1063,6 +1063,7 @@
       return {
         "@type": "MusicEvent",
         "name": ev.band,
+        "description": "Koncert: " + ev.band + " — " + ev.place + ", " + ev.city + " (" + ev.genre + ").",
         "startDate": ev.date,
         "eventStatus": ev.cancelled ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
@@ -1071,6 +1072,7 @@
           "name": ev.place,
           "address": { "@type": "PostalAddress", "addressLocality": ev.city, "addressCountry": "PL" }
         },
+        "organizer": { "@type": "Organization", "name": ev.place },
         "performer": { "@type": "MusicGroup", "name": ev.band },
         "genre": ev.genre,
         "url": ev.ticketUrl
