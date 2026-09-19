@@ -1,4 +1,4 @@
-const CACHE_NAME = "loud-nearby-v4";
+const CACHE_NAME = "loud-nearby-v5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,7 +7,9 @@ const ASSETS = [
   "./icon-192.png",
   "./icon-512.png",
   "./icon-maskable-512.png",
-  "./splash.png"
+  "./splash.png",
+  "./logo-light.png",
+  "./logo-dark.png"
 ];
 
 self.addEventListener("install", (event) => {
