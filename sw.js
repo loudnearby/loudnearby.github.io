@@ -1,8 +1,9 @@
-const CACHE_NAME = "loud-nearby-v3";
+const CACHE_NAME = "loud-nearby-v4";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
+  "./favicon.ico",
   "./icon-192.png",
   "./icon-512.png",
   "./icon-maskable-512.png",
