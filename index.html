@@ -25,6 +25,7 @@
 <meta property="og:url" content="https://loudnearby.pl/">
 <meta property="og:locale" content="pl_PL">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="de_DE">
 <meta property="og:image" content="https://loudnearby.pl/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -445,6 +446,43 @@
     thead th, tbody td { padding: 9px 10px; }
   }
 
+  /* ---------- Language suggestion banner ---------- */
+  .lang-banner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .lang-banner-switch {
+    border: none;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .lang-banner-dismiss {
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+  }
+  .lang-banner-dismiss:hover { color: var(--text); }
+
   /* ---------- Theme toggle ---------- */
   .theme-bar {
     display: flex;
@@ -452,7 +490,7 @@
     gap: 10px;
     padding-top: 16px;
   }
-  #theme-toggle, #lang-toggle {
+  #theme-toggle {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -467,8 +505,32 @@
     border-radius: 999px;
     cursor: pointer;
   }
-  #theme-toggle:focus-visible, #lang-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   #theme-toggle .icon { font-size: 14px; line-height: 1; }
+
+  #lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    padding: 3px;
+  }
+  #lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  #lang-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  #lang-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   #install-btn {
     display: none;
@@ -660,7 +722,11 @@
       <span class="icon" aria-hidden="true">&#8595;</span>
       <span id="install-label">Zainstaluj aplikację</span>
     </button>
-    <button id="lang-toggle" type="button">EN</button>
+    <div id="lang-toggle" role="group" aria-label="Język / Language / Sprache">
+      <button type="button" data-lang="pl" aria-pressed="true">PL</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    </div>
     <button id="theme-toggle" type="button" aria-pressed="false">
       <span class="icon" aria-hidden="true">&#9728;</span>
       <span id="theme-label">Świt</span>
@@ -704,20 +770,20 @@
   <section class="faq" aria-labelledby="ui-faq-title">
     <h2 id="ui-faq-title">Najczęściej zadawane pytania</h2>
     <details>
-      <summary>Jak często aktualizowana jest lista koncertów?</summary>
-      <p>Lista jest aktualizowana raz w tygodniu. Aktualny stan danych zawsze widać w nagłówku strony, przy napisie „stan na”.</p>
+      <summary id="faq-q1">Jak często aktualizowana jest lista koncertów?</summary>
+      <p id="faq-a1">Lista jest aktualizowana raz w tygodniu. Aktualny stan danych zawsze widać w nagłówku strony, przy napisie „stan na”.</p>
     </details>
     <details>
-      <summary>Skąd pochodzą dane o koncertach?</summary>
-      <p>Zestawienie przygotowywane jest z pomocą AI na podstawie zapowiedzi z portali muzycznych i klubów z całej Polski. To nie jest pełna, oficjalna lista wszystkich koncertów w kraju — dokładne godziny i dostępność biletów zawsze warto zweryfikować bezpośrednio na miejscu.</p>
+      <summary id="faq-q2">Skąd pochodzą dane o koncertach?</summary>
+      <p id="faq-a2">Zestawienie przygotowywane jest z pomocą AI na podstawie zapowiedzi z portali muzycznych i klubów z całej Polski. To nie jest pełna, oficjalna lista wszystkich koncertów w kraju — dokładne godziny i dostępność biletów zawsze warto zweryfikować bezpośrednio na miejscu.</p>
     </details>
     <details>
-      <summary>Jakie gatunki muzyczne obejmuje strona?</summary>
-      <p>Loud Nearby skupia się na koncertach metalowych, rockowych, punkowych, gothic/post-punkowych oraz wieczorach tribute — listę można filtrować wg tych pięciu gatunków.</p>
+      <summary id="faq-q3">Jakie gatunki muzyczne obejmuje strona?</summary>
+      <p id="faq-a3">Loud Nearby skupia się na koncertach metalowych, rockowych, punkowych, gothic/post-punkowych oraz wieczorach tribute — listę można filtrować wg tych pięciu gatunków.</p>
     </details>
     <details>
-      <summary>Jak zgłosić koncert lub błąd w danych?</summary>
-      <p>Napisz na <a href="mailto:malik.michal85@gmail.com">malik.michal85@gmail.com</a> — chętnie poprawię błędne dane, dodam koncert, którego brakuje.</p>
+      <summary id="faq-q4">Jak zgłosić koncert lub błąd w danych?</summary>
+      <p id="faq-a4">Napisz na <a href="mailto:malik.michal85@gmail.com">malik.michal85@gmail.com</a> — chętnie poprawię błędne dane, dodam koncert, którego brakuje.</p>
     </details>
   </section>
 
@@ -930,7 +996,14 @@
       shareCopied: "Skopiowano ✓",
       shareWa: "Wyślij przez WhatsApp",
       shareImgAlt: "Grafika koncertu do zapisania",
-      shareHint: "Przytrzymaj (telefon) lub kliknij prawym przyciskiem (komputer) na obrazku powyżej, aby go zapisać i wysłać."
+      shareHint: "Przytrzymaj (telefon) lub kliknij prawym przyciskiem (komputer) na obrazku powyżej, aby go zapisać i wysłać.",
+      faqTitle: "Najczęściej zadawane pytania",
+      faq: [
+        { q: "Jak często aktualizowana jest lista koncertów?", a: "Lista jest aktualizowana raz w tygodniu. Aktualny stan danych zawsze widać w nagłówku strony, przy napisie „stan na”." },
+        { q: "Skąd pochodzą dane o koncertach?", a: "Zestawienie przygotowywane jest z pomocą AI na podstawie zapowiedzi z portali muzycznych i klubów z całej Polski. To nie jest pełna, oficjalna lista wszystkich koncertów w kraju — dokładne godziny i dostępność biletów zawsze warto zweryfikować bezpośrednio na miejscu." },
+        { q: "Jakie gatunki muzyczne obejmuje strona?", a: "Loud Nearby skupia się na koncertach metalowych, rockowych, punkowych, gothic/post-punkowych oraz wieczorach tribute — listę można filtrować wg tych pięciu gatunków." },
+        { q: "Jak zgłosić koncert lub błąd w danych?", a: 'Napisz na <a href="mailto:malik.michal85@gmail.com">malik.michal85@gmail.com</a> — chętnie poprawię błędne dane, dodam koncert, którego brakuje.' }
+      ]
     },
     en: {
       months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -973,7 +1046,64 @@
       shareCopied: "Copied ✓",
       shareWa: "Send via WhatsApp",
       shareImgAlt: "Concert graphic to save",
-      shareHint: "Press and hold (phone) or right-click (computer) on the image above to save and send it."
+      shareHint: "Press and hold (phone) or right-click (computer) on the image above to save and send it.",
+      faqTitle: "Frequently asked questions",
+      faq: [
+        { q: "How often is the concert list updated?", a: "The list is updated once a week. The current data status is always shown in the page header, next to “as of”." },
+        { q: "Where does the concert data come from?", a: "The list is compiled with AI assistance from announcements on music portals and venues across Poland. It's not a complete, official list of every concert in the country — exact times and ticket availability are always worth double-checking directly with the venue." },
+        { q: "Which music genres does the site cover?", a: "Loud Nearby focuses on metal, rock, punk, gothic/post-punk concerts and tribute nights — you can filter the list by these five genres." },
+        { q: "How do I report a concert or a data error?", a: 'Email <a href="mailto:malik.michal85@gmail.com">malik.michal85@gmail.com</a> — happy to fix incorrect data or add a missing concert.' }
+      ]
+    },
+    de: {
+      months: ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
+      h1Tag: "Metal- & Rock-Konzerte",
+      pageTitle: "Loud Nearby — Metal-, Rock- und Heavy-Konzerte in Polen",
+      pageDescription: "Ein Kalender für Metal-, Rock-, Punk- und Gothic-Konzerte in ganz Polen — Dreistadt, Warschau, Krakau und mehr. Kommende Konzerte, filterbar nach Genre und Stadt.",
+      dek: "Metal und Rock (plus verwandte Klänge: Punk, Gothic/Post-Punk, Tribute) für das kommende Jahr in ganz Polen — filtere nach Genre und Stadt. Gesammelt von Portalen und Clubs aus ganz Polen.",
+      countLabel: "Konzerte gelistet",
+      asofPrefix: "Stand:",
+      asofNote: "Termine und Besetzungen können sich ändern, bitte vor dem Kauf prüfen",
+      searchPlaceholder: "Suche: Band, Club, Stadt…",
+      liveCount: function (n) { return n + " angezeigt"; },
+      regionTitle: "Konzerte",
+      cityAll: "Alle Städte",
+      triChip: "Dreistadt",
+      cityFilterAria: "Nach Stadt filtern",
+      thDate: "Datum", thBand: "Band", thVenue: "Ort", thGenre: "Genre", thActions: "Aktionen",
+      mapLink: "🗺 Karte",
+      mapTitle: "Auf der Karte anzeigen",
+      ticketLink: "Infos",
+      calBtnTitle: "Zum Kalender hinzufügen",
+      shareBtnTitle: "Mit Freunden teilen",
+      soonToday: "Heute", soonTomorrow: "Morgen",
+      soonWeek: function (n) { return "In " + n + " Tagen"; },
+      cancelledLabel: "ABGESAGT",
+      installLabel: "App installieren",
+      footerText: "Mit KI zusammengestellt aus Daten von Portalen und Clubs in ganz Polen — keine vollständige, offizielle Liste aller Konzerte. „Infos”-Links führen zur Seite des Portals, Clubs oder Ticketanbieters (nicht immer direkt zur Veranstaltung) — genaue Uhrzeiten und Ticketverfügbarkeit bitte vor Ort prüfen.",
+      contactLabel: "Kontakt:",
+      themeLight: "Morgen", themeDark: "Dämmerung",
+      modalCloseAria: "Schließen",
+      calEyebrow: "Zum Kalender hinzufügen",
+      calGoogle: "In Google Kalender öffnen",
+      calGoogleSmall: "ein Klick, direkt im Browser",
+      calHint: function (ev) { return fmtDate(ev.date) + " · " + ev.venue + ". Ganztägiges Ereignis — die genaue Uhrzeit im Ticket-Link prüfen."; },
+      genreLabel: "Genre",
+      googleDetailsTickets: "Tickets",
+      shareEyebrow: "Teilen",
+      shareTextLabel: "Text zum Versenden",
+      shareCopy: "Text kopieren",
+      shareCopied: "Kopiert ✓",
+      shareWa: "Über WhatsApp senden",
+      shareImgAlt: "Konzertgrafik zum Speichern",
+      shareHint: "Zum Speichern und Versenden das Bild oben gedrückt halten (Handy) oder mit der rechten Maustaste anklicken (Computer).",
+      faqTitle: "Häufig gestellte Fragen",
+      faq: [
+        { q: "Wie oft wird die Konzertliste aktualisiert?", a: "Die Liste wird einmal pro Woche aktualisiert. Der aktuelle Datenstand ist immer im Seitenkopf neben „Stand:” zu sehen." },
+        { q: "Woher stammen die Konzertdaten?", a: "Die Liste wird mit KI-Unterstützung aus Ankündigungen von Musikportalen und Clubs in ganz Polen zusammengestellt. Es handelt sich nicht um eine vollständige, offizielle Liste aller Konzerte im Land — genaue Uhrzeiten und Ticketverfügbarkeit sollten immer direkt vor Ort geprüft werden." },
+        { q: "Welche Musikgenres deckt die Seite ab?", a: "Loud Nearby konzentriert sich auf Metal-, Rock-, Punk- und Gothic-/Post-Punk-Konzerte sowie Tribute-Abende — die Liste lässt sich nach diesen fünf Genres filtern." },
+        { q: "Wie melde ich ein Konzert oder einen Datenfehler?", a: 'Schreib an <a href="mailto:malik.michal85@gmail.com">malik.michal85@gmail.com</a> — ich korrigiere gerne fehlerhafte Daten oder ergänze ein fehlendes Konzert.' }
+      ]
     }
   };
   function t(key) { return I18N[LANG][key]; }
@@ -1455,15 +1585,21 @@
     });
   })();
 
-  /* ---------- Language toggle (PL/EN) ---------- */
+  /* ---------- Language toggle (PL/EN/DE) ---------- */
+  var applyLanguage;
   (function () {
-    var langBtn = document.getElementById("lang-toggle");
+    var SUPPORTED_LANGS = ["pl", "en", "de"];
+    var OG_LOCALES = { pl: "pl_PL", en: "en_US", de: "de_DE" };
+    var langButtons = document.querySelectorAll("#lang-toggle button");
 
-    function applyLanguage(lang) {
+    applyLanguage = function (lang) {
       LANG = lang;
       document.documentElement.setAttribute("lang", lang);
       document.title = t("pageTitle");
       document.querySelector('meta[name="description"]').setAttribute("content", t("pageDescription"));
+      document.querySelector('meta[property="og:locale"]').setAttribute("content", OG_LOCALES[lang]);
+      var altLocales = SUPPORTED_LANGS.filter(function (l) { return l !== lang; }).map(function (l) { return OG_LOCALES[l]; });
+      document.querySelectorAll('meta[property="og:locale:alternate"]').forEach(function (el, i) { el.setAttribute("content", altLocales[i]); });
       document.getElementById("ui-h1-tag").textContent = t("h1Tag");
       document.getElementById("ui-dek").textContent = t("dek");
       document.getElementById("ui-count-label").textContent = t("countLabel");
@@ -1483,25 +1619,67 @@
       document.getElementById("ui-contact-label").textContent = t("contactLabel");
       searchEl.placeholder = t("searchPlaceholder");
       document.getElementById("modal-close").setAttribute("aria-label", t("modalCloseAria"));
+      document.getElementById("ui-faq-title").textContent = t("faqTitle");
+      t("faq").forEach(function (item, i) {
+        document.getElementById("faq-q" + (i + 1)).textContent = item.q;
+        document.getElementById("faq-a" + (i + 1)).innerHTML = item.a;
+      });
       closeModal();
 
       renderAll();
       applyFilter();
       if (window.__themeRerender) window.__themeRerender();
 
-      langBtn.textContent = lang === "pl" ? "EN" : "PL";
+      langButtons.forEach(function (btn) { btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false"); });
       try { localStorage.setItem("loud-nearby-lang", lang); } catch (e) {}
-    }
+    };
 
-    langBtn.addEventListener("click", function () {
-      applyLanguage(LANG === "pl" ? "en" : "pl");
+    langButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () { applyLanguage(btn.dataset.lang); });
     });
 
     var storedLang = null;
     try { storedLang = localStorage.getItem("loud-nearby-lang"); } catch (e) {}
-    if (storedLang === "en" || storedLang === "pl") {
+    if (SUPPORTED_LANGS.indexOf(storedLang) > -1) {
       if (storedLang !== LANG) applyLanguage(storedLang);
     }
+  })();
+
+  /* ---------- Language suggestion banner (locale-detected, PL stays the default) ---------- */
+  (function () {
+    var BANNER_TEXT = {
+      en: { msg: "Looks like you might prefer English — switch?", action: "Switch to English", dismiss: "No thanks" },
+      de: { msg: "Sieht so aus, als würdest du Deutsch bevorzugen — wechseln?", action: "Auf Deutsch wechseln", dismiss: "Nein danke" }
+    };
+
+    var storedLang = null, bannerSeen = null;
+    try {
+      storedLang = localStorage.getItem("loud-nearby-lang");
+      bannerSeen = localStorage.getItem("loud-nearby-lang-banner-seen");
+    } catch (e) {}
+    if (storedLang || bannerSeen) return; // explicit choice already made, or banner already shown once
+
+    var browserLang = (navigator.language || "").slice(0, 2).toLowerCase();
+    if (browserLang !== "en" && browserLang !== "de") return;
+    var copy = BANNER_TEXT[browserLang];
+
+    var bar = document.createElement("div");
+    bar.className = "lang-banner";
+    bar.innerHTML =
+      '<span>' + copy.msg + '</span>' +
+      '<button type="button" class="lang-banner-switch">' + copy.action + '</button>' +
+      '<button type="button" class="lang-banner-dismiss" aria-label="' + copy.dismiss + '">&times;</button>';
+    document.querySelector(".theme-bar").insertAdjacentElement("afterend", bar);
+
+    function dismiss() {
+      bar.remove();
+      try { localStorage.setItem("loud-nearby-lang-banner-seen", "1"); } catch (e) {}
+    }
+    bar.querySelector(".lang-banner-switch").addEventListener("click", function () {
+      applyLanguage(browserLang);
+      dismiss();
+    });
+    bar.querySelector(".lang-banner-dismiss").addEventListener("click", dismiss);
   })();
 </script>
 
