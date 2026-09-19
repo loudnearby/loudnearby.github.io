@@ -981,9 +981,50 @@
   };
   function t(key) { return I18N[LANG][key]; }
 
+  var VENUE_LINKS = {
+    "Drizzly Grizzly": "https://www.drizzlygrizzly.pl/en/music_event/",
+    "B90": "https://www.tickets.b90.pl/en/",
+    "Stodoła": "https://stodola.pl/",
+    "Progresja": "https://progresja.com/",
+    "Letnia Scena Progresji": "https://progresja.com/",
+    "Proxima": "https://klubproxima.pl/",
+    "Klub Kwadrat": "https://klubkwadrat.pl/",
+    "Zaścianek": "https://klubzascianek.pl/",
+    "Wytwórnia": "https://wytwornia.pl/",
+    "A2": "https://cka2.pl/",
+    "Alive": "https://alive.wroclaw.pl/",
+    "Mózg": "https://mozg.art.pl/",
+    "Klub Niebo": "https://klubniebo.pl/",
+    "2Progi": "https://2progi.pl/",
+    "Zaklęte Rewiry": "https://www.zakleterewiry.pl/",
+    "Spodek": "https://www.spodekkatowice.pl/",
+    "Klub Parlament": "https://parlament.com.pl/",
+    "Podwórko Art": "https://podworko.art/",
+    "Hydrozagadka": "https://www.klubhydrozagadka.com/",
+    "Fabryka Kultury Zgrzyt": "https://zgrzyt.info/",
+    "Cavatina Hall": "https://cavatinahall.pl/",
+    "PreZero Arena": "https://prezeroarenagliwice.pl/",
+    "Polsat Plus Arena Gdynia": "https://polsatplusarena.gdynia.pl/",
+    "Polsat Plus Arena (Letnica)": "https://polsatplusarenagdansk.pl/",
+    "Tauron Arena": "https://www.tauronarenakrakow.pl/",
+    "Atlas Arena": "https://atlasarena.pl/",
+    "Sala Koncertowa Radia Wrocław": "https://www.radiowroclaw.pl/events/index/Sala-Koncertowa-Radia-Wroclaw",
+    "Sala Koncertowa Portu Gdynia": "https://www.port.gdynia.pl/o-porcie/sala-koncertowa/",
+    "Zamek Bolków": "https://www.zamek-bolkow.info.pl/",
+    "Łasztownia": "https://hellsbells.pl/",
+    "Lotnisko Czaplinek-Broczyno": "https://polandrockfestival.pl/",
+    "Tereny festiwalowe": "https://jarocinfestiwal.pl/",
+    "Piąty Dom": "https://piatydom.pl/",
+    "Over The Under": "https://overtheunder.pl/",
+    "Krzywy Gryf": "https://www.rockmetal.pl/koncerty.html?club=6636_Krzywy_Gryf",
+    "Pub Korba": "https://www.rockmetal.pl/koncerty.html?club=4900_Pub_Korba",
+    "Hype Park": "https://www.rockmetal.pl/koncerty.html?club=6586_Hype_Park",
+    "Zajezdnia Trolejbusowa": "https://mok.olsztyn.pl/uslugi/uslugi-wynajmu/zajezdnia-trolejbusowa/"
+  };
+
   function ticketUrl(venue) {
-    if (venue.indexOf("Drizzly Grizzly") > -1) return "https://www.drizzlygrizzly.pl/en/music_event/";
-    if (venue.indexOf("B90") > -1) return "https://www.tickets.b90.pl/en/";
+    var place = splitVenue(venue).place;
+    if (VENUE_LINKS[place]) return VENUE_LINKS[place];
     if (venue.indexOf("Warszawa") > -1) return "https://www.rockmetal.pl/koncerty.html?city=1_Warszawa";
     if (venue.indexOf("Kraków") > -1) return "https://www.rockmetal.pl/koncerty.html?city=8_Krakow";
     if (venue.indexOf("Gdynia") > -1 || venue.indexOf("Gdańsk") > -1) return "https://www.rock3miasto.pl/wydarzenie/";
